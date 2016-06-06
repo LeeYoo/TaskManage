@@ -1,0 +1,25 @@
+  #container {
+    width : 400px;
+    height : 200px;
+    margin:0,auto;
+    top : 120px;
+    border : 1px solid #88bfea;
+    margin-left: 500px;
+    margin-bottom: 30px;
+  }
+ 
+  #title {
+     height : 32px;
+     background-color : #e5f1f8;
+     border-bottom : 1px solid #88bfea; 
+     font-size :13px;
+     font-weight : bold;
+     line-height : 32px;
+     padding-left : 6px;
+  }
+  
+  #content {
+     text-align : center;
+     color: white;
+     font-size: 25px;
+  }

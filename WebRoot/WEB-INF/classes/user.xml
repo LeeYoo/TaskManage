@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="permissionInterceptor" namespace="/permissionInterceptor" extends="struts-default">
+		<!-- 注册拦截器（要放在最前面） -->
+		<interceptors>
+			<interceptor name="interceptor" class="com.base.Utils.MyInterceptor" />
+			<!-- 定义拦截器栈（由一个或多个拦截器栈组成） -->
+			<interceptor-stack name="permissionStack">
+				<!-- 在这儿可以定义所使用到的拦截器(系统默认，自定义的) -->
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="interceptor" />
+			</interceptor-stack>
+		</interceptors>
+		
+		<!-- 默认这个包下的所有action都有拦截器 
+		(如果为某个action中同时使用其他特有的拦截器，默认的拦截器就不会起作用了)-->
+		<default-interceptor-ref name="permissionStack" />
+	</package>
+
+	<package name="user" namespace="/user" extends="permissionInterceptor">
+		
+		<global-results>
+			<!-- 存放的是全局的result  -->
+			<result name="message">/WEB-INF/jsp/inc/share/message.jsp</result>
+		</global-results>
+		
+		<!-- 【任务管理】修改和指派的UI 修改动作 删除动作--> 
+		<action name="task_*" class="taskManageAction" method="{1}">
+			<result name="editUI">/WEB-INF/jsp/inc/edit/main_edit.jsp</result>
+			<result name="fixUI">/WEB-INF/jsp/inc/fix/main_fix.jsp</result>
+		</action> 
+		
+		<!-- 【正在进行】 -->
+		<action name="welcome" class="welcomeListAction">
+			<result name="success">/WEB-INF/jsp/inc/task/welcome.jsp</result>
+		</action>
+		
+		<!-- 【自己任务】 -->
+		<action name="listWork" class="workListAction">
+			<result name="success">/WEB-INF/jsp/inc/task/main.jsp</result>
+		</action>
+		
+		<!-- 【我已完成】 -->
+		<action name="YesWork" class="yesWorkListAction">
+			<result name="success">/WEB-INF/jsp/inc/task/yes.jsp</result>
+		</action>
+		
+		<!-- 【我未完成】 -->
+		<action name="NoWork" class="noWorkListAction">
+			<result name="success">/WEB-INF/jsp/inc/task/no.jsp</result>
+		</action>
+		
+		<!-- 【下属任务】 -->
+		<action name="employeeWork" class="workEmployeeListAction">
+			<result name="success">/WEB-INF/jsp/inc/employee/employee.jsp</result>
+		</action>
+		
+		<!-- 【查询界面】 -->
+		<action name="preFindUI">
+			<result name="success">/WEB-INF/jsp/inc/find/main_find.jsp</result>
+		</action>
+		
+		<!-- 【查询任务】 -->
+		<action name="findWork" class="findWorkListAction">
+			<result name="success">/WEB-INF/jsp/inc/find/find.jsp</result>
+		</action>
+		
+		<!-- 【指派任务】 -->
+		<action name="Fixwork" class="fixWorkListAction">
+			<result name="success">/WEB-INF/jsp/inc/share/message.jsp</result>
+			<result name="input">/WEB-INF/jsp/inc/share/message.jsp</result>
+		</action>
+		
+		<!-- 【人员关系】 -->
+		<action name="relation" class="relationAction">	
+			<result name="success">/WEB-INF/jsp/inc/relation/relation.jsp</result>
+		</action>
+		 
+		<!-- 【个人信息】 -->
+		<action name="preMyself" class="preMyselfAction">	
+			<result name="success">/WEB-INF/jsp/inc/myself/main_myself.jsp</result>
+		</action>
+		<action name="myselfUpdate" class="myselfUpdateAction">	
+			<result name="success">/WEB-INF/jsp/inc/share/message.jsp</result>
+			<result name="input">/WEB-INF/jsp/inc/myself/main_myself.jsp</result>
+		</action>
+		
+		<!-- 【文件上传】_保留 
+			<action name="upload" class="uploadAction">	
+				<result name="success">/WEB-INF/jsp/manager/upload.jsp</result>
+			</action>
+		 【文件列表】 
+		<action name="fileList" class="fileListAction">	
+			<result name="success">/WEB-INF/jsp/inc/file/filelist.jsp</result>
+		</action>-->
+		
+		<!-- 【权限列表】 -->
+		<action name="privilegelist" class="privilegeListAction">	
+			<result name="success">/WEB-INF/jsp/inc/privilege/systemPrivilege/privilegeGroupList.jsp</result>
+		</action>
+		
+		<!-- 【权限组列表】 -->
+		<action name="privilegeGrouplist" class="privilegeGroupListAction">	
+			<result name="success">/WEB-INF/jsp/inc/privilege/privilegeGroupList.jsp</result>
+		</action>
+		<!-- 【权限组管理】 -->
+		<action name="privilegeGroup_*" class="privilegeGroupManageAction" method="{1}">
+			<result name="addUI">/WEB-INF/jsp/inc/privilege/addUI_privilegeGroup.jsp</result>
+			<result name="editUI">/WEB-INF/jsp/inc/privilege/editUI_privilegeGroup.jsp</result>
+		</action>
+		
+		<!-- 【用户列表】 -->
+		<action name="userlist" class="userListAction">	
+			<result name="success">/WEB-INF/jsp/inc/user/userList.jsp</result>
+		</action>
+		<!-- 【用户管理】 -->
+		<action name="user_*" class="userManageAction" method="{1}">
+			<result name="setPrivilegeUI">/WEB-INF/jsp/inc/user/privilegeSet.jsp</result>
+		</action>
+		
+		<!-- 【部门列表】 -->
+		<action name="deptlist" class="deptListAction">	
+			<result name="success">/WEB-INF/jsp/inc/dept/deptList.jsp</result>
+		</action>
+		<!-- 【部门管理】 -->
+		<action name="dept_*" class="deptManageAction" method="{1}">
+			<result name="addUI">/WEB-INF/jsp/inc/dept/addUI_dept.jsp</result>
+			<result name="editUI">/WEB-INF/jsp/inc/dept/editUI_dept.jsp</result>
+		</action>
+		
+		<!-- 【查看任务进度详情】 -->
+	    <action name="chart" class="chartDataAction"> 
+	        <result name="success">/WEB-INF/jsp/inc/chart/line.jsp</result>
+	    </action>
+	    
+	    <!-- 【打分页面】 -->
+	    <action name="score_*" class="scoreAction" method="{1}"> 
+	      	<result name="scoreUI">/WEB-INF/jsp/inc/score/scoreUI.jsp</result>
+	    </action>  
+		
+	</package>
+	
+	
+</struts>

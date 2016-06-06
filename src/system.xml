@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="system" namespace="/system" extends="struts-default">
+		
+		<global-results>
+			<!-- 存放的是全局的result  -->
+			<result name="message">/WEB-INF/jsp/inc/share/message.jsp</result>
+		</global-results>
+		
+		<!-- 【系统初始化——初始化权限】 -->
+		<action name="systemInit" class="systemInitAction"></action>
+		
+		<!-- 【用户登陆】 -->
+		<action name="preLogin" class="preLoginUIAction">
+			<result name="success">/WEB-INF/jsp/base/prelogin.jsp</result>
+		</action>
+		<action name="login" class="loginAction">
+			<result name="success">/WEB-INF/jsp/inc/share/message.jsp</result>
+			<result name="input" type="chain">preLogin</result>
+		</action>
+		
+		<!-- 【用户注册】 -->
+		<action name="preRegist" class="preRegistUIAction" >
+			<result name="success">/WEB-INF/jsp/base/preregist.jsp</result>
+		</action>
+		<action name="regist" class="registAction">
+			<result name="success">/WEB-INF/jsp/inc/share/message.jsp</result>
+			<result name="input" type="chain">preRegist</result>
+		</action>
+		
+		<!-- 【退出系统】 -->
+		<action name="exit" class="exitAction">
+			<result name="success" type="redirectAction">preLogin</result>
+		</action>
+			
+	</package>
+	
+	
+</struts>

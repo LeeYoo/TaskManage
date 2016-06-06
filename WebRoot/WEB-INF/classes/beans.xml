@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           ">
+         
+         <!-- 要进行aop编程,必须要打开(启动)对@Aspectj注解的支持 -->
+         <aop:aspectj-autoproxy/>
+           
+         <!-- 通过【注解+自动扫描】方式把组件纳入Spring容器中管理，就必须打开组件扫描的配置项： -->
+         <!-- base-package代表要扫描哪个包底下的类以及其子包底下的类！ -->
+         <context:component-scan base-package="com" />
+		 
+         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+         	<property name="persistenceUnitName" value="itcast"/>
+         </bean>
+         
+         <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+         	<property name="entityManagerFactory" ref="entityManagerFactory"/>	<!-- 注入entityManager来开启事务 -->
+         </bean>
+           
+         <!-- 使用基于注解方式来使用事务配置声明 (打开事务的配置项)-->    
+         <tx:annotation-driven transaction-manager="txManager" />
+</beans>
